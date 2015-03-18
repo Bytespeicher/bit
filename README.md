@@ -21,16 +21,16 @@ Bit is a simple URL shortener. It is not designed to scale very large.
 
     wish: will try to return this as link identifier, the API may return 
           another identifier than the one specified
-	  32 chars
+          32 chars
           optional
 
 #### Example
 
 ```json
 {
-    'key': '1234567890ABCDEF',
-    'url': 'http://www.example.com/example',
-    'wish': 'MyWish'
+    "key": "1234567890ABCDEF",
+    "url": "http://www.example.com/example",
+    "wish": "MyWish"
 }
 ```
 
@@ -55,7 +55,7 @@ Bit is a simple URL shortener. It is not designed to scale very large.
 
 ```json
 {
-    'key': '1234567890ABCDEF',
-    'id':  '4af3fjnnW',
+    "key": "1234567890ABCDEF",
+    "id":  "4af3fjnnW",
 }
 ```
