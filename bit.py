@@ -4,6 +4,8 @@
 import json
 
 from flask import Flask
+import util
+
 app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
@@ -15,7 +17,11 @@ def index():
 
 @app.route('/<link_id>')
 def short_link(link_id):
-    return link_id
+    url = util.lookup_url(link_id)
+    if url == None:
+        abort(404)
+    else:
+        return redirect(url)
 
 @app.route('/<link_url>+')
 def link_info(link_url):
