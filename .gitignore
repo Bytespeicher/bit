@@ -4,3 +4,4 @@ env3/
 *.pyc
 *.swp
 *.swo
+*.sqlite3
