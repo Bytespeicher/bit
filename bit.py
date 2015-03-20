@@ -14,7 +14,7 @@ from flask import flash
 import os
 import config
 import sqlite3
-
+import time
 
 app = Flask(__name__)
 
@@ -146,6 +146,9 @@ def short_link(link_id):
     if url is None:
         abort(404)
     else:
+        db = get_db()
+        db.execute('INSERT INTO stats (link_id, time) VALUES(?, ?)',
+                   (link_id, int(time.time()),))
         return redirect(url)
 
 
