@@ -112,15 +112,21 @@ def save_url(url, wish=None):
     db = get_db()
     if wish is not None:
         exists = lookup_url(wish)
+    else:
+        key_exists = db.execute('SELECT key FROM urls WHERE url = ?', (url,)).fetchone()
+
     if exists is None:
         key = wish
-    else:
+    elif key_exists is not None:
         cur = db.execute('SELECT key FROM urls ORDER BY key LIMIT 1')
         last_key = cur.fetchone()
         if not last_key:
             key = base62_encode(0)
         else:
             key = base62_encode(base62_decode(last_key) + 1)
+    else:
+        key = key_exists
+
     db.execute('INSERT INTO urls (key, url) VALUES (?, ?)', (key, url))
     db.commit()
 
