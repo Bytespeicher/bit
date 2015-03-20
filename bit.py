@@ -113,7 +113,8 @@ def save_url(url, wish=None):
     if wish is not None:
         exists = lookup_url(wish)
     else:
-        key_exists = db.execute('SELECT key FROM urls WHERE url = ?', (url,)).fetchone()
+        cur = db.execute('SELECT key FROM urls WHERE url = ?', (url,))
+        key_exists = cur.fetchone()
 
     if exists is None:
         key = wish
