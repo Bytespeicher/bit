@@ -160,9 +160,17 @@ def short_link(link_id):
         return redirect(url)
 
 
-@app.route('/<link_url>+')
-def link_info(link_url):
-    return json.dumps({'Link:': link_url})
+@app.route('/<link_id>+')
+def link_info(link_id):
+    link_url = lookup_url(link_id)
+    if link_url is None:
+        abort(404)
+
+    db = get_db()
+    link_stats = db.execute('SELECT time FROM stats WHERE link_id = ?',
+                            (link_id,))
+
+    return json.dumps({'Link:': link_url, 'Stats:': link_stats})
 
 
 @app.route('/api/v1/short', methods=['POST'])
