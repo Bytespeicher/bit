@@ -139,7 +139,7 @@ def close_db(error):
         g.sqlite_db.close()
 
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/')
 def index():
     return render_template('index.html')
 
@@ -159,6 +159,16 @@ def short_link(link_id):
         db.execute('INSERT INTO stats (link_id, time) VALUES(?, ?)',
                    (link_id, int(time.time()),))
         return redirect(url)
+
+
+@app.route('/save', methods=['POST'])
+def save_link():
+    if not len(request['url']):
+        flash('No URL supplied')
+        return redirect('/')
+
+    key = save_url(request['url'])
+    return redirect('/' + key + '+')
 
 
 @app.route('/<link_id>+')
