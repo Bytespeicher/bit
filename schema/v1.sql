@@ -5,6 +5,7 @@ CREATE TABLE urls (
 
 CREATE TABLE stats (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
+    link_id TEXT NOT NULL,
     time INTEGER NOT NULL
 );
 
