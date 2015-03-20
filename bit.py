@@ -140,10 +140,12 @@ def close_db(error):
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    if request.method == 'GET':
-        return 'Main page'
-    elif request.method == 'POST':
-        return 'New url'
+    return render_template('index.html')
+
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template('404.html'), 404
 
 
 @app.route('/<link_id>')
