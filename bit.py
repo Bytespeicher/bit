@@ -110,26 +110,31 @@ def lookup_url(link_id):
 def save_url(url, wish=None):
     exists = None
     db = get_db()
+
     if wish is not None:
         exists = lookup_url(wish)
+        if exists is not None:
+            return wish
     else:
-        cur = db.execute('SELECT key FROM urls WHERE url = ?', (url,))
-        key_exists = cur.fetchone()
+        try:
+            cur = db.execute('SELECT key FROM urls WHERE url = ?', (url,))
+            key_exists = cur.fetchone()[0]
+            if key_exists is not None:
+                return key_exists
+        except TypeError:
+            key_exists = None
 
-    if exists is None:
-        key = wish
-    elif key_exists is not None:
-        cur = db.execute('SELECT key FROM urls ORDER BY key LIMIT 1')
-        last_key = cur.fetchone()
-        if not last_key:
-            key = base62_encode(0)
-        else:
-            key = base62_encode(base62_decode(last_key) + 1)
+    cur = db.execute('SELECT key FROM urls ORDER BY key LIMIT 1')
+    last_key = cur.fetchone()
+
+    if not last_key or last_key == '':
+        key = base62_encode(8)
     else:
-        key = key_exists
+        key = base62_encode(base62_decode(last_key) + 1)
 
     db.execute('INSERT INTO urls (key, url) VALUES (?, ?)', (key, url))
     db.commit()
+    return key
 
 
 @app.teardown_appcontext
