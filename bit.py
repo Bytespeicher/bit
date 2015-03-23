@@ -199,6 +199,9 @@ def save_link():
 
     key = save_url(request.form['url'])
 
+    if key is None:
+        abort(500)
+
     return redirect('/' + key + '+')
 
 
