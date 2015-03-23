@@ -10,6 +10,7 @@ from flask import redirect
 from flask import abort
 from flask import render_template
 from flask import flash
+from werkzeug.exceptions import HTTPException
 
 import os
 import config
@@ -23,6 +24,26 @@ app.config.update(dict(
     DATABASE=os.path.join(app.root_path, config.DATABASE_PATH),
     DEBUG=True,
 ))
+
+
+class JSONException(HTTPException):
+    def __init__(self, message, status_code=None, response=None):
+        self.message = message
+        self.response = response
+
+        if status_code is not None:
+            self.code = status_code
+        else:
+            self.code = 400
+
+    def get_body(self, environ):
+        return json.dumps({
+            "error": self.message,
+            "code": self.code
+        })
+
+    def get_headers(self, environ):
+        return [('Content-Type', 'application/json')]
 
 
 ALPHABET = "23456789abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ"
