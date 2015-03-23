@@ -216,16 +216,26 @@ def link_info(link_id):
 
 @app.route('/api/v1/short', methods=['POST'])
 def api_v1_short():
-    if not request.form['key']:
-        return json.dumps({'error': 'Authorization required'}), 401
+    if not request.json:
+        raise JSONException(message="No data supplied", status_code=400)
+
+    # TODO: api key validation
+    if 'key' not in request.json:
+        raise JSONException(message="No data supplied", status_code=401)
 
     # TODO: url validation
-    if not request.form['url']:
-        return json.dumps({'error': 'URL required'}), 400
+    if 'url' not in request.json:
+        raise JSONException(message="No URL supplied", status_code=400)
 
-    short_link = save_url(request.form['url'], request.form['wish'])
-
-    return short_link
+    try:
+        short_link = save_url(request.json['url'], request.json['wish'])
+        return json.dumps({
+            "url_long": request.json['url'],
+            "url_short": short_link,
+            "wish": request.json['wish'],
+        })
+    except Exception:
+        return JSONException(message="Internal server error", status_code=500)
 
 
 @app.route('/api/v1/long', methods=['POST'])
