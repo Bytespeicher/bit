@@ -193,11 +193,12 @@ def short_link(link_id):
 
 @app.route('/save', methods=['POST'])
 def save_link():
-    if not len(request['url']):
+    if not len(request.form['url']):
         flash('No URL supplied')
         return redirect('/')
 
-    key = save_url(request['url'])
+    key = save_url(request.form['url'])
+
     return redirect('/' + key + '+')
 
 
