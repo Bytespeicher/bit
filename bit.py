@@ -136,6 +136,10 @@ def save_url(url, wish=None):
         exists = lookup_url(wish)
         if exists is not None:
             return wish
+        else:
+            db.execute('INSERT INTO urls (key, url) VALUES (?, ?)', (wish, url))
+            db.commit()
+            return wish
     else:
         try:
             cur = db.execute('SELECT key FROM urls WHERE url = ?', (url,))
