@@ -227,7 +227,8 @@ def short_link(link_id):
         db = get_db()
         db.execute('INSERT INTO stats (link_id, time) VALUES(?, ?)',
                    (link_id, int(time.time()),))
-        return redirect(url)
+        db.commit()
+        return redirect(url, code=301)
 
 
 @app.route('/save', methods=['POST'])
