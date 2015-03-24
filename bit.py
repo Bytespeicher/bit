@@ -156,10 +156,15 @@ def save_url(url, wish=None):
 
 
 @app.cli.command('initdb')
-def initdb_command():
-    """Creates the database tables."""
-    init_db()
-    print('Initialized the database.')
+@click.option('--upgrade', default='no', 'Only upgrade to a newer version')
+def initdb_command(upgrade):
+    if upgrade == 'yes':
+        print('Not implemented')
+        return
+    else:
+        """Creates the database tables."""
+        init_db()
+        print('Initialized the database.')
 
 
 @app.cli.command('addkey')
