@@ -126,12 +126,12 @@ def lookup_url(link_id):
 
 
 def lookup_stats(link_id):
-    link_stats = db.execute('SELECT time FROM stats WHERE link_id = ?',
-                            (link_id,))
-    if len(link_stats):
-        return link_stats
-    else:
-        return None
+    db = get_db()
+    cur = db.execute('SELECT time FROM stats WHERE link_id = ?', (link_id,))
+    link_stats = [x['time'] for x in cur.fetchall()]
+
+    return link_stats
+
 
 def save_url(url, wish=None):
     exists = None
