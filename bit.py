@@ -270,12 +270,17 @@ def api_v1_short():
     if 'url' not in request.json:
         raise JSONException(message="No URL supplied", status_code=400)
 
+    if 'wish' not in request.json:
+        wish = None
+    else:
+        wish = request.json['wish']
+
     try:
-        short_link = save_url(request.json['url'], request.json['wish'])
+        short_link = save_url(request.json['url'], wish)
         return json.dumps({
             "url_long": request.json['url'],
             "url_short": short_link,
-            "wish": request.json['wish'],
+            "wish": wish
         })
     except Exception:
         return JSONException(message="Internal server error", status_code=500)
