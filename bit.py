@@ -2,6 +2,10 @@
 # -*- coding: utf-8 -*-
 
 import json
+import os
+import config
+import sqlite3
+import time
 
 from flask import Flask
 from flask import request
@@ -11,11 +15,6 @@ from flask import abort
 from flask import render_template
 from flask import flash
 from werkzeug.exceptions import HTTPException
-
-import os
-import config
-import sqlite3
-import time
 
 app = Flask(__name__)
 
