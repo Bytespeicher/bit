@@ -277,8 +277,27 @@ def api_v1_short():
 
 @app.route('/api/v1/long', methods=['POST'])
 def api_v1_long():
-    return json.dumps(request)
+    if not request.json:
+        raise JSONException(message="No data supplied", status_code=400)
 
+    # TODO: api key validation
+    if 'key' not in request.json:
+        raise JSONException(message="No valid API key supplied", status_code=401)
+
+    if 'id' not in request.json:
+        raise JSONException(message="No URL id supplied", status_code=400)
+
+    try:
+        long_link = lookup_url(request.json['id'])
+        statistics = lookup_stats(request.json['id'])
+
+        return json.dumps({
+            "url_short": request.json['id'],
+            "url_long": long_link,
+            "stat": statistics
+        })
+    except Exception:
+        return JSONException(message="Internal server error", status_code=500)
 
 if __name__ == "__main__":
     app.run(host='localhost', port=9002)
