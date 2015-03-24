@@ -2,6 +2,19 @@
 
 Bit is a simple URL shortener. It is not designed to scale very large.
 
+## CLI
+
+The CLI tools are only available with newer Flask versions.
+
+Available commands are:
+
+* flask --app=bit initdb
+    * Installs a new database
+* flask --app=bit addkey --key KEY [--limit LIMIT]
+    * Adds a new API key
+    * KEY must be 32 characters long
+    * LIMIT is the daily limit
+
 ## API
 ### short
 #### URL
