@@ -251,7 +251,6 @@ def link_info(link_id):
     if link_url is None:
         abort(404)
 
-    db = get_db()
     link_stats = lookup_stats(link_id)
 
     return json.dumps({'Link:': link_url, 'Stats:': link_stats})
