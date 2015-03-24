@@ -301,6 +301,9 @@ def api_v1_long():
 
     try:
         long_link = lookup_url(request.json['id'])
+        if long_link is None:
+            JSONException(message="Link information not found", status_code=404)
+
         if 'statistics' in request.json and request.json['statistics'] is True:
             statistics = lookup_stats(request.json['id'])
         else:
