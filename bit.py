@@ -89,8 +89,12 @@ def base62_decode(string, alphabet=ALPHABET):
 
 def connect_db():
     """Connects to the specific database."""
+    def make_dicts(cursor, row):
+        return dict((cursor.description[idx][0], value)
+                    for idx, value in enumerate(row))
+
     rv = sqlite3.connect(app.config['DATABASE'])
-    rv.row_factory = sqlite3.Row
+    rv.row_factory = make_dicts
     return rv
 
 
