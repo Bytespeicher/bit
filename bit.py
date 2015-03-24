@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import json
+import click
 import os
 import config
 import sqlite3
@@ -159,6 +160,28 @@ def initdb_command():
     """Creates the database tables."""
     init_db()
     print('Initialized the database.')
+
+
+@app.cli.command('addkey')
+@click.option('--key', help='The API key to add')
+@click.option('--limit', default=10000, help='Maximum requests per day')
+def add_api_key(key, limit):
+    """Adds an API key for authorization."""
+    if key is None or len(key) is not 32:
+        print('Keys must be exactly 32 characters long!')
+        return
+
+    if limit == 0:
+        print('INFO: Limit set to 0 - setting no limit.')
+
+    if limit < 0:
+        print('INFO: Limit is less than 0, disabling account')
+
+    db = get_db()
+    db.execute('INSERT OR REPLACE INTO api (key, dlimit) VALUES (?, ?)', (key, limit))
+    db.commit()
+
+    print('Key "%s" added to the database.' % key)
 
 
 @app.teardown_appcontext
