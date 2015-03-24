@@ -120,6 +120,13 @@ def lookup_url(link_id):
     else:
         return link
 
+def lookup_stats(link_id):
+    link_stats = db.execute('SELECT time FROM stats WHERE link_id = ?',
+                            (link_id,))
+    if len(link_stats):
+        return link_stats
+    else:
+        return None
 
 def save_url(url, wish=None):
     exists = None
@@ -239,8 +246,7 @@ def link_info(link_id):
         abort(404)
 
     db = get_db()
-    link_stats = db.execute('SELECT time FROM stats WHERE link_id = ?',
-                            (link_id,))
+    link_stats = lookup_stats(link_id)
 
     return json.dumps({'Link:': link_url, 'Stats:': link_stats})
 
