@@ -117,12 +117,13 @@ def get_db():
 
 def lookup_url(link_id):
     db = get_db()
-    cur = db.execute('SELECT url FROM urls WHERE key = ?', (link_id,))
-    link = cur.fetchall()
-    if len(link) is not 1:
+    cur = db.execute('SELECT url FROM urls WHERE key = ? LIMIT 1', (link_id,))
+    link = cur.fetchone()
+    if link is None:
         return None
     else:
-        return link
+        return link['url']
+
 
 def lookup_stats(link_id):
     link_stats = db.execute('SELECT time FROM stats WHERE link_id = ?',
