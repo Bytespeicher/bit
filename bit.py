@@ -263,7 +263,8 @@ def api_v1_short():
 
     # TODO: api key validation
     if 'key' not in request.json:
-        raise JSONException(message="No valid API key supplied", status_code=401)
+        raise JSONException(message="No valid API key supplied",
+                            status_code=401)
 
     # TODO: url validation
     if 'url' not in request.json:
@@ -287,7 +288,8 @@ def api_v1_long():
 
     # TODO: api key validation
     if 'key' not in request.json:
-        raise JSONException(message="No valid API key supplied", status_code=401)
+        raise JSONException(message="No valid API key supplied",
+                            status_code=401)
 
     if 'id' not in request.json:
         raise JSONException(message="No URL id supplied", status_code=400)
