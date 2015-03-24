@@ -156,7 +156,7 @@ def save_url(url, wish=None):
 
 
 @app.cli.command('initdb')
-@click.option('--upgrade', default='no', 'Only upgrade to a newer version')
+@click.option('--upgrade', default='no', help='Only upgrade to a newer version')
 def initdb_command(upgrade):
     if upgrade == 'yes':
         print('Not implemented')
