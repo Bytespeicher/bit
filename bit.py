@@ -102,13 +102,6 @@ def init_db():
     db.commit()
 
 
-@app.cli.command('initdb')
-def initdb_command():
-    """Creates the database tables."""
-    init_db()
-    print('Initialized the database.')
-
-
 def get_db():
     """Opens a new database connection if there is none yet for the
     current application context.
@@ -160,6 +153,13 @@ def save_url(url, wish=None):
     db.execute('INSERT INTO urls (key, url) VALUES (?, ?)', (key, url))
     db.commit()
     return key
+
+
+@app.cli.command('initdb')
+def initdb_command():
+    """Creates the database tables."""
+    init_db()
+    print('Initialized the database.')
 
 
 @app.teardown_appcontext
