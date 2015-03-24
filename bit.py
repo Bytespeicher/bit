@@ -301,12 +301,15 @@ def api_v1_long():
 
     try:
         long_link = lookup_url(request.json['id'])
-        statistics = lookup_stats(request.json['id'])
+        if 'statistics' in request.json and request.json['statistics'] is True:
+            statistics = lookup_stats(request.json['id'])
+        else:
+            statistics = []
 
         return json.dumps({
             "url_short": request.json['id'],
             "url_long": long_link,
-            "stat": statistics
+            "statistics": statistics
         })
     except Exception:
         return JSONException(message="Internal server error", status_code=500)
