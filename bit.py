@@ -134,7 +134,6 @@ def lookup_stats(link_id):
 
 
 def save_url(url, wish=None):
-    exists = None
     db = get_db()
 
     if wish is not None:
