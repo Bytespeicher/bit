@@ -194,7 +194,8 @@ def add_api_key(key, limit):
         print('INFO: Limit is less than 0, disabling account')
 
     db = get_db()
-    db.execute('INSERT OR REPLACE INTO api (key, dlimit) VALUES (?, ?)', (key, limit))
+    db.execute('INSERT OR REPLACE INTO api (key, dlimit) VALUES (?, ?)',
+               (key, limit))
     db.commit()
 
     print('Key "%s" added to the database.' % key)
