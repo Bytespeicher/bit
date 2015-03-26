@@ -1,7 +1,7 @@
 CREATE TABLE urls (
     key TEXT PRIMARY KEY,
     url TEXT NOT NULL,
-    api_key INTEGER,
+    api_key INTEGER
 );
 
 CREATE TABLE stats (
