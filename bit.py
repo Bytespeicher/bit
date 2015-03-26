@@ -133,7 +133,7 @@ def lookup_stats(link_id):
     return link_stats
 
 
-def save_url(url, wish=None):
+def save_url(url, wish=None, api_key=None):
     db = get_db()
 
     if wish is not None:
@@ -141,7 +141,12 @@ def save_url(url, wish=None):
         if exists is not None:
             return wish
         else:
-            db.execute('INSERT INTO urls (key, url) VALUES (?, ?)', (wish, url))
+            if api_key is not None:
+                db.execute('INSERT INTO urls (key, url, api_key) VALUES (?, ?, ?)',
+                           (wish, url, api_key))
+            else:
+                db.execute('INSERT INTO urls (key, url) VALUES (?, ?)', (wish, url))
+
             db.commit()
             return wish
     else:
@@ -161,7 +166,12 @@ def save_url(url, wish=None):
     else:
         key = base62_encode(base62_decode(last_key) + 1)
 
-    db.execute('INSERT INTO urls (key, url) VALUES (?, ?)', (key, url))
+    if api_key is not None:
+        db.execute('INSERT INTO urls (key, url, api_key) VALUES (?, ?, ?)',
+                   (key, url, api_key))
+    else:
+        db.execute('INSERT INTO urls (key, url) VALUES (?, ?)', (key, url))
+
     db.commit()
     return key
 
@@ -276,7 +286,7 @@ def api_v1_short():
         wish = request.json['wish']
 
     try:
-        short_link = save_url(request.json['url'], wish)
+        short_link = save_url(request.json['url'], wish, api_key=request.json['key'])
         return json.dumps({
             "url_long": request.json['url'],
             "url_short": short_link,
