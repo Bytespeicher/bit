@@ -5,3 +5,4 @@ env3/
 *.swp
 *.swo
 *.sqlite3
+config.py
