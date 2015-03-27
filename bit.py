@@ -24,15 +24,16 @@ app = Flask(__name__)
 # Load default config and override config from an environment variable
 app.config.update(dict(
     DATABASE=os.path.join(app.root_path, config.DATABASE_PATH),
-    DEBUG = True,
-    DEBUG_TB_ENABLED = True,
-    DEBUG_TB_INTERCEPT_REDIRECTS = True,
-    DEBUG_TB_PROFILER_ENABLED = True,
-    DEBUG_TB_TEMPLATE_EDITOR_ENABLED = True,
-    SECRET_KEY = '1234567890',
+    DEBUG = config.DEBUG,
+    DEBUG_TB_ENABLED = config.DEBUG,
+    DEBUG_TB_INTERCEPT_REDIRECTS = config.DEBUG,
+    DEBUG_TB_PROFILER_ENABLED = config.DEBUG,
+    DEBUG_TB_TEMPLATE_EDITOR_ENABLED = config.DEBUG,
+    SECRET_KEY = config.SECRET_KEY,
 ))
 
-toolbar = flask_debugtoolbar.DebugToolbarExtension(app)
+if config.DEBUG is True:
+    toolbar = flask_debugtoolbar.DebugToolbarExtension(app)
 
 class JSONException(HTTPException):
     def __init__(self, message, status_code=None, response=None):
