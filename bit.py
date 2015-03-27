@@ -132,6 +132,17 @@ def lookup_stats(link_id):
 
     return link_stats
 
+def save_key(key, url, api_key=None):
+    db = get_db()
+
+    if api_key is not None:
+        db.execute('INSERT INTO urls (key, url, api_key) VALUES (?, ?, ?)',
+                   (key, url, api_key))
+    else:
+        db.execute('INSERT INTO urls (key, url) VALUES (?, ?)', (key, url))
+
+    db.commit()
+
 
 def save_url(url, wish=None, api_key=None):
     db = get_db()
@@ -141,13 +152,7 @@ def save_url(url, wish=None, api_key=None):
         if exists is not None:
             return wish
         else:
-            if api_key is not None:
-                db.execute('INSERT INTO urls (key, url, api_key) VALUES (?, ?, ?)',
-                           (wish, url, api_key))
-            else:
-                db.execute('INSERT INTO urls (key, url) VALUES (?, ?)', (wish, url))
-
-            db.commit()
+            save_key(wish, url, api_key)
             return wish
     else:
         try:
@@ -166,13 +171,8 @@ def save_url(url, wish=None, api_key=None):
     else:
         key = base62_encode(base62_decode(last_key) + 1)
 
-    if api_key is not None:
-        db.execute('INSERT INTO urls (key, url, api_key) VALUES (?, ?, ?)',
-                   (key, url, api_key))
-    else:
-        db.execute('INSERT INTO urls (key, url) VALUES (?, ?)', (key, url))
+    save_key(key, url, api_key)
 
-    db.commit()
     return key
 
 
