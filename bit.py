@@ -263,7 +263,7 @@ def link_info(link_id):
 
     link_stats = lookup_stats(link_id)
 
-    return json.dumps({'Link:': link_url, 'Stats:': link_stats})
+    return render_template('info.html', url=link_url, stats=link_stats)
 
 
 @app.route('/api/v1/short', methods=['POST'])
