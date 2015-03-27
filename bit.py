@@ -16,7 +16,6 @@ from flask import redirect
 from flask import abort
 from flask import render_template
 from flask import flash
-from flask_debugtoolbar_lineprofilerpanel.profile import line_profile
 from werkzeug.exceptions import HTTPException
 
 app = Flask(__name__)
