@@ -2,6 +2,9 @@
 
 Bit is a simple URL shortener. It is not designed to scale very large.
 
+Attention: This is highly alpha stuff and not yet ready for any kind of 
+production use!
+
 ## CLI
 
 The CLI tools are only available with newer Flask versions.
