@@ -166,10 +166,10 @@ def save_url(url, wish=None, api_key=None):
     cur = db.execute('SELECT key FROM urls ORDER BY key LIMIT 1')
     last_key = cur.fetchone()
 
-    if not last_key or last_key == '':
+    if 'key' not in last_key or last_key['key'] == '':
         key = base62_encode(8)
     else:
-        key = base62_encode(base62_decode(last_key) + 1)
+        key = base62_encode(base62_decode(last_key['key']) + 1)
 
     save_key(key, url, api_key)
 
