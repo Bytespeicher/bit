@@ -7,6 +7,7 @@ import os
 import config
 import sqlite3
 import time
+import flask_debugtoolbar
 
 from flask import Flask
 from flask import request
@@ -15,6 +16,7 @@ from flask import redirect
 from flask import abort
 from flask import render_template
 from flask import flash
+from flask_debugtoolbar_lineprofilerpanel.profile import line_profile
 from werkzeug.exceptions import HTTPException
 
 app = Flask(__name__)
@@ -22,9 +24,15 @@ app = Flask(__name__)
 # Load default config and override config from an environment variable
 app.config.update(dict(
     DATABASE=os.path.join(app.root_path, config.DATABASE_PATH),
-    DEBUG=True,
+    DEBUG = True,
+    DEBUG_TB_ENABLED = True,
+    DEBUG_TB_INTERCEPT_REDIRECTS = True,
+    DEBUG_TB_PROFILER_ENABLED = True,
+    DEBUG_TB_TEMPLATE_EDITOR_ENABLED = True,
+    SECRET_KEY = '1234567890',
 ))
 
+toolbar = flask_debugtoolbar.DebugToolbarExtension(app)
 
 class JSONException(HTTPException):
     def __init__(self, message, status_code=None, response=None):
