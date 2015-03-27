@@ -135,19 +135,27 @@ def lookup_url(link_id):
 
 def lookup_stats(link_id):
     db = get_db()
-    cur = db.execute('SELECT time FROM stats WHERE link_id = ?', (link_id,))
+    cur = db.execute("""SELECT time FROM stats WHERE link_id IN (
+                        SELECT id FROM urls WHERE key = ?)""",
+                     (link_id,))
     link_stats = [x['time'] for x in cur.fetchall()]
 
     return link_stats
 
-def save_key(key, url, api_key=None):
+def save_key(key, url, api_key=None, customized=False):
     db = get_db()
 
-    if api_key is not None:
-        db.execute('INSERT INTO urls (key, url, api_key) VALUES (?, ?, ?)',
-                   (key, url, api_key))
+    if customized is True:
+        custom = 1
     else:
-        db.execute('INSERT INTO urls (key, url) VALUES (?, ?)', (key, url))
+        custom = 0
+
+    if api_key is not None:
+        db.execute("""INSERT INTO urls (key, url, api_key, custom)
+                        VALUES (?, ?, ?, ?)""", (key, url, api_key, custom))
+    else:
+        db.execute("""INSERT INTO urls (key, url, custom)
+                        VALUES (?, ?, ?)""", (key, url, custom))
 
     db.commit()
 
@@ -160,21 +168,20 @@ def save_url(url, wish=None, api_key=None):
         if exists is not None:
             return wish
         else:
-            save_key(wish, url, api_key)
+            save_key(wish, url, api_key, customized=True)
             return wish
     else:
-        try:
-            cur = db.execute('SELECT key FROM urls WHERE url = ?', (url,))
-            key_exists = cur.fetchone()[0]
-            if key_exists is not None:
-                return key_exists
-        except TypeError:
-            key_exists = None
+        cur = db.execute('SELECT key FROM urls WHERE url = ?', (url,))
+        key_exists = cur.fetchone()
+        if key_exists is not None and 'key' in key_exists:
+            return key_exists['key']
 
-    cur = db.execute('SELECT key FROM urls ORDER BY key LIMIT 1')
+    cur = db.execute("""SELECT key FROM urls WHERE custom = 0 ORDER BY id
+                        DESC LIMIT 1""")
+
     last_key = cur.fetchone()
 
-    if 'key' not in last_key or last_key['key'] == '':
+    if last_key is None or 'key' not in last_key or last_key['key'] == '':
         key = base62_encode(8)
     else:
         key = base62_encode(base62_decode(last_key['key']) + 1)
@@ -243,8 +250,10 @@ def short_link(link_id):
         abort(404)
     else:
         db = get_db()
+        lid = db.execute('SELECT id FROM urls WHERE key = ? LIMIT 1',
+                         (link_id,)).fetchone()['id']
         db.execute('INSERT INTO stats (link_id, time) VALUES(?, ?)',
-                   (link_id, int(time.time()),))
+                   (lid, int(time.time()),))
         db.commit()
         return redirect(url, code=301)
 

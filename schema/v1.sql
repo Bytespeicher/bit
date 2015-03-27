@@ -1,12 +1,14 @@
 CREATE TABLE urls (
-    key TEXT PRIMARY KEY,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    key TEXT UNIQUE NOT NULL,
     url TEXT NOT NULL,
-    api_key INTEGER
+    api_key INTEGER,
+    custom INTEGER NOT NULL
 );
 
 CREATE TABLE stats (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    link_id TEXT NOT NULL,
+    link_id INTEGER NOT NULL,
     time INTEGER NOT NULL
 );
 
