@@ -23,16 +23,17 @@ app = Flask(__name__)
 # Load default config and override config from an environment variable
 app.config.update(dict(
     DATABASE=os.path.join(app.root_path, config.DATABASE_PATH),
-    DEBUG = config.DEBUG,
-    DEBUG_TB_ENABLED = config.DEBUG,
-    DEBUG_TB_INTERCEPT_REDIRECTS = config.DEBUG,
-    DEBUG_TB_PROFILER_ENABLED = config.DEBUG,
-    DEBUG_TB_TEMPLATE_EDITOR_ENABLED = config.DEBUG,
-    SECRET_KEY = config.SECRET_KEY,
+    DEBUG=config.DEBUG,
+    DEBUG_TB_ENABLED=config.DEBUG,
+    DEBUG_TB_INTERCEPT_REDIRECTS=config.DEBUG,
+    DEBUG_TB_PROFILER_ENABLED=config.DEBUG,
+    DEBUG_TB_TEMPLATE_EDITOR_ENABLED=config.DEBUG,
+    SECRET_KEY=config.SECRET_KEY,
 ))
 
 if config.DEBUG is True:
     toolbar = flask_debugtoolbar.DebugToolbarExtension(app)
+
 
 class JSONException(HTTPException):
     def __init__(self, message, status_code=None, response=None):
@@ -141,6 +142,7 @@ def lookup_stats(link_id):
     link_stats = [x['time'] for x in cur.fetchall()]
 
     return link_stats
+
 
 def save_key(key, url, api_key=None, customized=False):
     db = get_db()
@@ -303,7 +305,8 @@ def api_v1_short():
         wish = request.json['wish']
 
     try:
-        short_link = save_url(request.json['url'], wish, api_key=request.json['key'])
+        short_link = save_url(request.json['url'], wish,
+                              api_key=request.json['key'])
         return json.dumps({
             "url_long": request.json['url'],
             "url_short": short_link,
