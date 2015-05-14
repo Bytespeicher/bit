@@ -2217,23 +2217,31 @@ th {
     display: none !important; } }
 
 .mui-appbar {
-    display: table;
     width: 100%;
     position: fixed;
+    line-height: 63px;
 }
 
 .appbar-text, .appbar-text:hover {
     font-size: 20px;
     padding: 15px;
     color: #fff;
-    display: table-cell;
     vertical-align: middle;
     height: 100%;
     text-decoration: none;
 }
 
-span.appbar-text {
-    text-align: right;
+.appbar-logo {
+    height: 48px;
+    padding: 5px;
+    padding-left: 0;
+}
+
+.appbar-info {
+    font-size: 20px;
+    float: right;
+    padding: 0;
+    padding-right: 15px;
 }
 
 .appbar-shadow {
