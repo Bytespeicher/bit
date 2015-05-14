@@ -193,6 +193,18 @@ def save_url(url, wish=None, api_key=None):
     return key
 
 
+def validate_api_key(key):
+    db = get_db()
+
+    cur = db.execute('SELECT id, limit FROM api WHERE key = ?', (key,))
+    res = cur.fetchone()
+
+    if res and 'id' in res and res['id'] > 0:
+        return True
+    else:
+        return False
+
+
 @app.cli.command('initdb')
 @click.option('--upgrade', default='no', help='Only upgrade to a newer version')
 def initdb_command(upgrade):
@@ -322,7 +334,7 @@ def api_v1_long():
         raise JSONException(message="No data supplied", status_code=400)
 
     # TODO: api key validation
-    if 'key' not in request.json:
+    if 'key' not in request.json or not validate_api_key(request.json['key']):
         raise JSONException(message="No valid API key supplied",
                             status_code=401)
 
