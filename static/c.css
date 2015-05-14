@@ -2220,6 +2220,8 @@ th {
     width: 100%;
     position: fixed;
     line-height: 63px;
+    box-shadow: 0 2px 5px rgba(0,0,0,.26);
+    transition: box-shadow .2s;
 }
 
 .appbar-text, .appbar-text:hover {
