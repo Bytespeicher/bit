@@ -10,6 +10,15 @@
 	<script src="/static/j.js"></script>
 </head>
 <body>
-	{% block body %}{% endblock %}
+	<header>
+		<div class="mui-appbar">
+			<a class="appbar-text" href="/">bit</a>
+			<span class="appbar-text">makes URLs short</span>
+		</div>
+	</header>
+	<div class="mui-appbar-height"></div>
+	<div class="mui-container">
+		{% block body %}{% endblock %}
+	</div>
 </body>
 </html>
