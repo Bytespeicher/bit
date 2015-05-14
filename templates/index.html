@@ -1,11 +1,17 @@
 {% extends "layout.html" %}
 {% block body %}
-<h1>bit</h1>
-<h2>makes urls short</h2>
 
+<div id="bit-description">
+	<p>Hi there! I am bit, a simple URL shortener. You can find my source code on <a href="https://github.com/Bytespeicher/bit" target="_blank">Github</a>.<p>
+	<p>To shorten a URL, just enter it below and press "shorten"</p>
+</div>
 <form action="/save" method="POST">
-	<label for="url">URL: </label>
-	<input type="url" name="url" id="url" required>
-	<input type="submit">
+	<div class="mui-form-group">
+		<input type="url" name="url" id="url" class="mui-form-control" required> 
+		<label class="mui-form-floating-label">URL, e.g. http://example.com</label>
+	</div>
+	<div class="mui-form-group">
+		<input type="submit" value="Shorten" class="mui-btn mui-btn-primary mui-btn-raised">
+	</div>
 </form>
 {% endblock %}

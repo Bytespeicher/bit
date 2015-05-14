@@ -1,23 +1,15 @@
 {% extends "layout.html" %}
 {% block body %}
-<h1>bit</h1>
 
 <h2>Statistics for /{{ link_url }}</h2>
 
-{% if stats %}
-    <canvas id="statChart" width="400" height="400"></canvas>
-    <script src="/static/chart.js">
-    <script>
-      var data = [
-      {% for stat in stats %}
-        {{ stat }}
-      {% endfor %}
-      ];
+<div id="bit-description">
+    <p>This link redirects to <a href="{{ url }}">{{ url }}</a></p>
 
-      var ctx = document.getElementById("statChart").getContext("2d");
-      var myNewChart = new Chart(ctx).PolarArea(data);
-    </script>
+{% if stats %}
+    <p>This link has statistics. Sadly, statistics display is not implemented yet.</p>
 {% else %}
     <p>No one has clicked on this link yet</p>
 {% endif %}
+</div>
 {% endblock %}
