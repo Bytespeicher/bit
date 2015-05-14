@@ -1,10 +1,12 @@
 {% extends "layout.html" %}
 {% block body %}
 
-<h2>Statistics for /{{ link_url }}</h2>
+<h2>Information about /{{ link_id }}</h2>
 
 <div id="bit-description">
     <p>This link redirects to <a href="{{ url }}">{{ url }}</a></p>
+
+    <p>The short URL is: <input id="shorturl" readonly selected autofocus value="http://krz.us/{{ link_id }}"></p>
 
 {% if stats %}
     <p>This link has statistics. Sadly, statistics display is not implemented yet.</p>
@@ -12,4 +14,8 @@
     <p>No one has clicked on this link yet</p>
 {% endif %}
 </div>
+<script>
+  document.getElementById("shorturl").focus();
+  document.getElementById("shorturl").select();
+</script>
 {% endblock %}

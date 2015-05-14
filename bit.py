@@ -294,7 +294,8 @@ def link_info(link_id):
 
     link_stats = lookup_stats(link_id)
 
-    return render_template('info.html', url=link_url, stats=link_stats)
+    return render_template('info.html', url=link_url, link_id=link_id,
+                           stats=link_stats)
 
 
 @app.route('/api/v1/short', methods=['POST'])
