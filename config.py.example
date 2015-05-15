@@ -1,3 +1,4 @@
 DATABASE_PATH = 'bit.sqlite3'
 DEBUG = False
 SECRET_KEY = '0123456789'
+URL = 'http://krz.us/'

@@ -322,7 +322,7 @@ def api_v1_short():
                               api_key=request.json['key'])
         return json.dumps({
             "url_long": request.json['url'],
-            "url_short": short_link,
+            "url_short": config.URL + short_link,
             "wish": wish
         })
     except Exception:
@@ -353,7 +353,7 @@ def api_v1_long():
             statistics = []
 
         return json.dumps({
-            "url_short": request.json['id'],
+            "url_short": config.URL + request.json['id'],
             "url_long": long_link,
             "statistics": statistics
         })
