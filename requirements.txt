@@ -1,3 +1,5 @@
 flask
 flask-debugtoolbar
 flask-debugtoolbar-lineprofilerpanel
+qrcode
+pillow

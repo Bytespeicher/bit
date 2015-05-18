@@ -6,7 +6,9 @@
 <div id="bit-description">
     <p>This link redirects to <a href="{{ url }}">{{ url }}</a></p>
 
-    <p>The short URL is: <input id="shorturl" readonly selected autofocus value="http://krz.us/{{ link_id }}"></p>
+    <p>The short URL is: <input id="shorturl" readonly selected autofocus value="{{ base_url }}{{ link_id }}"></p>
+
+    <p><img id="qrcode" src="{{ base_url }}{{ link_id }}.png"></p>
 
 {% if stats %}
     <p>This link has statistics. Sadly, statistics display is not implemented yet.</p>

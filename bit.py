@@ -8,6 +8,8 @@ import config
 import sqlite3
 import time
 import flask_debugtoolbar
+import qrcode
+import StringIO
 
 from flask import Flask
 from flask import request
@@ -15,6 +17,7 @@ from flask import g
 from flask import redirect
 from flask import abort
 from flask import render_template
+from flask import send_file
 from flask import flash
 from werkzeug.exceptions import HTTPException
 
@@ -295,7 +298,31 @@ def link_info(link_id):
     link_stats = lookup_stats(link_id)
 
     return render_template('info.html', url=link_url, link_id=link_id,
-                           stats=link_stats)
+                           stats=link_stats, base_url=config.URL)
+
+
+@app.route('/<img_id>.png')
+def qr_code(img_id):
+    link_url = lookup_url(img_id)
+    if link_url is None:
+        abort(404)
+
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_L,
+        box_size=10,
+        border=4
+    )
+
+    qr.add_data(link_url)
+    qr.make(fit=True)
+
+    image = qr.make_image()
+    image_io = StringIO.StringIO()
+    image.save(image_io, 'PNG')
+    image_io.seek(0)
+
+    return send_file(image_io, mimetype='image/png')
 
 
 @app.route('/api/v1/short', methods=['POST'])
