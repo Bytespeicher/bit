@@ -1,28 +1,40 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<title>bit</title>
-	<link rel="stylesheet" href="/static/c.css">
-	<link rel="icon" href="/static/favicon.png">
-	<script src="//cdn.muicss.com/mui-0.1.2/js/mui.min.js"></script>
+    <title>bit</title>
+    <link rel="stylesheet" href="/static/c.css">
+    <link rel="icon" href="/static/favicon.png">
+    <script src="//cdn.muicss.com/mui-0.1.2/js/mui.min.js"></script>
 </head>
 <body>
-	<header>
-		<div class="mui-appbar">
-			<a class="appbar-text" href="/">
-				<img class="appbar-logo" src="/static/logo.png">
-				bit
-			</a>
-			<span class="appbar-info">makes URLs short</span>
-		</div>
-	</header>
-	<div class="mui-appbar-height"></div>
-	<div class="mui-container">
-		{% block body %}{% endblock %}
-	</div>
+    <header>
+        <div class="mui-appbar">
+            <a class="appbar-text" href="/">
+                <img class="appbar-logo" src="/static/logo.png">
+                bit
+            </a>
+            <span class="appbar-info">makes URLs short</span>
+        </div>
+    </header>
+    <div class="mui-appbar-height"></div>
+    <div class="mui-container">
+        {% block body %}{% endblock %}
+    </div>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div id="toaster">
+                {% for message in messages %}
+                    <div class="flash-toast">
+                        {{ message }}
+                        <span class="dismiss" onclick="this.parentNode.remove();">DISMISS</span>
+                    </div>
+                {% endfor %}
+        {% endif %}
+    {% endwith %}
 </body>
 </html>
