@@ -252,7 +252,7 @@ def close_db(error):
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html', base_url=config.URL)
 
 
 @app.errorhandler(404)
@@ -281,7 +281,16 @@ def save_link():
         flash('No URL supplied')
         return redirect('/')
 
-    key = save_url(request.form['url'])
+    wish = None
+    if len(request.form['wish']):
+        exists = lookup_url(request.form['wish'])
+        if exists is not None:
+            flash('URL already in use')
+            return redirect('/')
+        else:
+            wish = request.form['wish']
+
+    key = save_url(request.form['url'], wish=wish)
 
     if key is None:
         abort(500)

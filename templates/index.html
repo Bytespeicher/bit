@@ -11,6 +11,11 @@
 		<label class="mui-form-floating-label">URL, e.g. http://example.com</label>
 	</div>
 	<div class="mui-form-group">
+		<span class="bit-form-prefix">{{ base_url }}</span>
+		<input type="text" name="wish" id="wish" class="mui-form-control bit-form-prefixed"> 
+		<label for="wish" class="mui-form-floating-label bit-form-prefixed">Custom URL (optional)</label>
+	</div>
+	<div class="mui-form-group">
 		<input type="submit" value="Shorten" class="mui-btn mui-btn-primary mui-btn-raised">
 	</div>
 </form>
