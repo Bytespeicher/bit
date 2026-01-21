@@ -1,5 +1,11 @@
 # bit
 
+**CAUTION: We have moved all of our git presence to [codeberg](https://codeberg.org/technikkultur-erfurt). This repo is an archive.**
+
+If you want to maintain this code, feel free to either fork this repository or migrate it to the group on [codeberg](https://codeberg.org/technikkultur-erfurt).
+
+---
+
 Bit is a simple URL shortener. It is not designed to scale very large.
 
 Attention: This is highly alpha stuff and not yet ready for any kind of 
